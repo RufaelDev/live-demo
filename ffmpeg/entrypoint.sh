@@ -30,29 +30,14 @@ PUB_POINT=${PUB_POINT_URI}
 
 set -x
 exec ffmpeg -re \
--f lavfi \
--i smptehdbars=size=1920x1080 \
--i "https://raw.githubusercontent.com/unifiedstreaming/live-demo/master/ffmpeg/usp_logo_white.png" \
+-stream_loop -1 -i "http://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel-avc1-1500k.mp4" \
+-stream_loop -1 -i "http://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel-aac-64k.mp4" \
 -filter_complex \
-"sine=frequency=1:beep_factor=480:sample_rate=48000, \
-atempo=0.5[a1]; \
-sine=frequency=1:beep_factor=960:sample_rate=48000, \
-atempo=0.5, \
-adelay=1000[a2]; \
-[a1][a2]amix, \
-highpass=40, \
-adelay='$(date +%3N)', \
-asplit=3[a1][a2][a3]; \
-[a1]showwaves=mode=p2p:colors=white:size=1280x100:scale=lin:rate=$(($FRAME_RATE))[waves]; \
-color=size=1280x100:color=black[blackbg]; \
-[blackbg][waves]overlay[waves2]; \
-[0][waves2]overlay=y=620[v]; \
-[v]drawbox=y=25: x=iw/2-iw/6.2: c=0x00000000@1: w=iw/3.05: h=36: t=fill, \
+"[v]drawbox=y=25: x=iw/2-iw/6.2: c=0x00000000@1: w=iw/3.05: h=36: t=fill, \
+drawtext=text='CMAF Live Ingest Tears of Steel Loop': fontsize=32: x=(w-text_w)/2: y=75: fontsize=32: fontcolor=white, \
 drawtext=timecode_rate=${FRAME_RATE}: timecode='$(date -u +%H\\:%M\\:%S)\\${FRAME_SEP}$(($(date +%3N)/$(($FRAME_RATE))))': tc24hmax=1: fontsize=32: x=(w-tw)/2+tw/2: y=30: fontcolor=white, \
-drawtext=text='%{gmtime\:%Y-%m-%d}\ ': fontsize=32: x=(w-tw)/2-tw/2: y=30: fontcolor=white[v+tc]; \
-[v+tc][1]overlay=eval=init:x=W-15-w:y=15[vid];
-[vid]split=2[vid0][vid1]" \
--map "[vid0]" -s 1280x720 -c:v libx264 -b:v 500k -profile:v main -preset ultrafast -tune zerolatency \
+drawtext=text='%{gmtime\:%Y-%m-%d}\ ': fontsize=32: x=(w-tw)/2-tw/2: y=30: fontcolor=white[vid]" \
+-map "[vid]" -c:v libx264 -b:v 1500k -profile:v main -preset ultrafast -tune zerolatency \
 -g $GOP_LENGTH \
 -r $FRAME_RATE \
 -keyint_min $GOP_LENGTH \
@@ -61,28 +46,11 @@ drawtext=text='%{gmtime\:%Y-%m-%d}\ ': fontsize=32: x=(w-tw)/2-tw/2: y=30: fontc
 -video_track_timescale 10000000 \
 -ism_offset $(($(date +%s)*10000000)) \
 -f mp4 "$PUB_POINT/Streams(video-720-500k.cmfv)" \
--map "[vid1]" -s 1920x1080 -c:v libx264 -b:v 1000k -profile:v main -preset ultrafast -tune zerolatency \
--g $GOP_LENGTH \
--r $FRAME_RATE \
--keyint_min $GOP_LENGTH \
--fflags +genpts \
--movflags +frag_keyframe+empty_moov+separate_moof+default_base_moof \
--video_track_timescale 10000000 \
--ism_offset $(($(date +%s)*10000000)) \
--f mp4 "$PUB_POINT/Streams(video-1080-1000k.cmfv)" \
--map "[a2]" -c:a aac -b:a 64k  -metadata:s:a:0 language=dut \
+-map 1:a -c:a aac -ab:a 64k -metadata:s:a:0 language=eng \
 -fflags +genpts \
 -frag_duration $AUDIO_FRAG_DUR_MICROS \
 -min_frag_duration $AUDIO_FRAG_DUR_MICROS \
 -movflags +empty_moov+separate_moof+default_base_moof \
 -video_track_timescale 48000 \
 -ism_offset $(($(date +%s)*48000)) \
--f mp4  "$PUB_POINT/Streams(audio-aac-64k.cmfa)" \
--map "[a3]" -c:a aac -b:a 128k  -metadata:s:a:0 language=eng \
--fflags +genpts \
--frag_duration $AUDIO_FRAG_DUR_MICROS \
--min_frag_duration $AUDIO_FRAG_DUR_MICROS \
--movflags +empty_moov+separate_moof+default_base_moof \
--video_track_timescale 48000 \
--ism_offset $(($(date +%s)*48000)) \
--f mp4  "$PUB_POINT/Streams(audio-aac-128k.cmfa)"
+-f mp4  "$PUB_POINT/Streams(audio-aac-64k.cmfa)"
