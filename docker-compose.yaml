@@ -1,6 +1,6 @@
 version: "2.1"
 services:
-  live-origin:
+  live-origin-tos:
     image: unifiedstreaming/live:latest
     ports:
       - 80:80
@@ -14,7 +14,7 @@ services:
       interval: 2s
       timeout: 5s
       retries: 30
-  ffmpeg:
+  ffmpeg-tos:
     build: ffmpeg
     environment:
       - FRAME_RATE=25
@@ -23,5 +23,5 @@ services:
       - PUB_POINT_URI=http://live-origin/test/test.isml/
       - LOGO_OVERLAY=
     depends_on:
-      live-origin:
+      live-origin-tos:
         condition: service_healthy
