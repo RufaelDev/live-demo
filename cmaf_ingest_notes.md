@@ -11,4 +11,4 @@ Tears of Steeel source media set to infinate loop being read from following sour
 - Origin unable to handling FFMPEG subtitle output (using -c:s mov_test from srt) with generates Sub Codec ID "tx3g"
 
 # Demo Stream
-TBC
+- http://dai-interop.unified-streaming.com:8082/test/test.isml/.mpd
