@@ -7,8 +7,5 @@ Tears of Steeel source media set to infinate loop being read from following sour
 - Video http://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel-avc1-1500k.mp4"
 - Audio "http://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel-aac-64k.mp4"
 
-# Known Issues
-- Origin unable to handling FFMPEG subtitle output (using -c:s mov_test from srt) with generates Sub Codec ID "tx3g"
-
 # Demo Stream
 - http://dai-interop.unified-streaming.com:8082/test/test.isml/.mpd
