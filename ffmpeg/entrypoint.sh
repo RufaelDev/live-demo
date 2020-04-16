@@ -33,8 +33,9 @@ exec ffmpeg -re \
 -stream_loop -1 -i "http://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel-avc1-1500k.mp4" \
 -stream_loop -1 -i "http://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel-aac-64k.mp4" \
 -filter_complex \
-"[v]drawbox=y=25: x=iw/2-iw/6.2: c=0x00000000@1: w=iw/3.05: h=36: t=fill, \
-drawtext=text='CMAF Live Ingest Tears of Steel Loop': fontsize=32: x=(w-text_w)/2: y=75: fontsize=32: fontcolor=white, \
+"[v]drawbox=y=25: x=iw/2-iw/7: c=0x00000000@1: w=iw/3.5: h=36: t=fill, \
+drawtext=text='DASH-IF Live Media Ingest Protocol': fontsize=32: x=(w-text_w)/2: y=75: fontsize=32: fontcolor=white,\
+drawtext=text='Interface 2 - CMAF': fontsize=32: x=(w-text_w)/2: y=125: fontsize=32: fontcolor=white, \
 drawtext=timecode_rate=${FRAME_RATE}: timecode='$(date -u +%H\\:%M\\:%S)\\${FRAME_SEP}$(($(date +%3N)/$(($FRAME_RATE))))': tc24hmax=1: fontsize=32: x=(w-tw)/2+tw/2: y=30: fontcolor=white, \
 drawtext=text='%{gmtime\:%Y-%m-%d}\ ': fontsize=32: x=(w-tw)/2-tw/2: y=30: fontcolor=white[vid]" \
 -map "[vid]" -c:v libx264 -b:v 1500k -profile:v main -preset ultrafast -tune zerolatency \
