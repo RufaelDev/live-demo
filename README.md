@@ -53,7 +53,7 @@ Which will create a Docker image called livedemo_live-origin.
 
 ## Usage
 
-You need a license key to use this software. To evaluate you can create an account at [Unified Streaming Registration](https://private.unified-streaming.com/register/).
+You need a license key to use this software. To evaluate you can create an account at [Unified Streaming Registration](https://www.unified-streaming.com/licenses/access).
 
 The license key is passed to containers using the *USP_LICENSE_KEY* environment variable.
 
