@@ -1,9 +1,9 @@
-# Unified Streaming Live Origin Demo
+# Unified Streaming Live Origin Demo 
+# DASH-IF Live Media Ingest Protocal - Interface 2 (DASH/HLS)
 
-This demonstration shows a [Unified Streaming](http://www.unified-streaming.com/products/unified-origin) Origin setup with a Live publishing point and uses [FFmpeg](https://ffmpeg.org/) as an encoder to push an input stream.
+This demonstration shows a [Unified Streaming](http://www.unified-streaming.com/products/unified-origin) Origin setup with a Live publishing point (with Apache rewrite rules) and [FFmpeg](https://ffmpeg.org/) as an encoder to push HLS or DASH as a live ingest stream.
 
-The demo consists of two Docker containers which are deployed using Docker Compose.
-
+The demo consists of two Docker containers which are deployed using Docker Compose, alongside 4 optional ffmpeg scripts.
 
 ## Setup
 
@@ -11,11 +11,25 @@ The demo consists of two Docker containers which are deployed using Docker Compo
 2. Install [Docker Compose](http://docs.docker.com/compose/install/)
 3. Download this demo's [Compose file](https://github.com/unifiedstreaming/live-demo/blob/master/docker-compose.yaml)
 
+## FFmpeg Scripts
+
+The ffmpeg folder contains 4 scripts which can be used to overwrite the `ffmpeg/entrypoint.sh` containing the encoding configuration. 
+
+Choices are:
+* ffmpeg_dash_chunked.sh	
+* ffmpeg_dash_singlefile.sh
+* ffmpeg_hls_chunked.sh
+* ffmpeg_hls_singlefile.sh
+
+This can be done by running the following command in the directory of this demo: 
+```bash
+#!/bin/sh
+cp ffmpeg/ffmpeg_dash_chunked.sh ffmpeg/entrypoint.sh
+```
 
 ## Build FFmpeg
 
-As this demonstration requires a patch to add functionality to FFmpeg for 
-improved live streaming the Docker image needs to be built locally.
+Once the `entrypoint.sh` has been overwritten the Docker image needs to be built locally.
 
 This can be done by running the following command in the directory of this demo's Compose file:
 
@@ -24,8 +38,18 @@ This can be done by running the following command in the directory of this demo'
 docker-compose build ffmpeg
 ```
 
-Which will create a Docker image called livedemo_ffmpeg with the patch applied.
+Which will create a Docker image called livedemo_ffmpeg.
 
+## Build Live-Origin
+
+As this demostation utilises apache 'mod_rewrite' as an additional configuration the Docker image needs to be build locally.
+
+```bash
+#!/bin/sh
+docker-compose build live-origin
+```
+
+Which will create a Docker image called livedemo_live-origin.
 
 ## Usage
 
@@ -66,7 +90,10 @@ Watching the stream can be done using your player of choice, for example FFplay.
 ffplay http://localhost/test/test.isml/.m3u8
 ```
 
-And it should look something like:
+HLS Ingest will look something like:
 
-![example](https://raw.githubusercontent.com/unifiedstreaming/live-demo/master/ffmpeg/example_logo.png)
+![example](https://raw.githubusercontent.com/RufaelDev/live-demo/cmaf_ingest_dash_hls/ffmpeg/example_hls.png)
 
+DASH Ingest will look something like:
+
+![example2](https://raw.githubusercontent.com/RufaelDev/live-demo/cmaf_ingest_dash_hls/ffmpeg/example_dash.png)
