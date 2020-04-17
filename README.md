@@ -5,6 +5,11 @@ This demonstration shows a [Unified Streaming](http://www.unified-streaming.com/
 
 The demo consists of two Docker containers which are deployed using Docker Compose, alongside 4 optional ffmpeg scripts.
 
+## Overview
+The demo generates the following stream configuration:
+- Video Track 1 - 1280x720 1000k AVC 48GOP@25FPS
+- Audio Track 1 - 64kbs 48kHz AAC-LC - English language 
+
 ## Setup
 
 1. Install [Docker](http://docker.io)
