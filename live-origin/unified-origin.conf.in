@@ -12,7 +12,7 @@ UspLicenseKey /etc/usp-license.key
   CustomLog /dev/stdout log_format
   ErrorLog /dev/stderr
 
-  LogLevel {{LOG_LEVEL}} rewrite:trace6
+  LogLevel {{LOG_LEVEL}} rewrite:{{LOG_LEVEL}}
 
   AddHandler smooth-streaming.extensions .isml
 
