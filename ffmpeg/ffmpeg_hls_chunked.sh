@@ -58,17 +58,21 @@ drawtext=text='%{gmtime\:%Y-%m-%d}\ ': fontsize=32: x=(w-tw)/2-tw/2: y=30: fontc
 -r $FRAME_RATE \
 -keyint_min $GOP_LENGTH \
 -fflags +genpts \
--hls_flags single_file \
--hls_list_size 2 \
+-hls_fmp4_init_filename init-stream1.m4s \
+-hls_segment_filename "$PUB_POINT/test-stream1.%03d.m4s" \
+-hls_list_size 1 \
 -hls_delete_threshold 1 \
+-hls_flags delete_segments \
 -hls_time 48/25 \
 -hls_segment_type fmp4 \
 -f hls "$PUB_POINT/Streams(test-stream1.m3u8)" \
 -map "[a2]" -c:a aac -ab:a 64k -metadata:s:a:0 language=eng \
 -fflags +genpts \
--hls_flags single_file \
--hls_list_size 2 \
+-hls_fmp4_init_filename init-stream2.m4s \
+-hls_segment_filename "$PUB_POINT/test-stream2.%03d.m4s" \
+-hls_list_size 1 \
 -hls_delete_threshold 1 \
+-hls_flags delete_segments \
 -hls_time 48/25 \
 -hls_segment_type fmp4 \
 -f hls "$PUB_POINT/Streams(test-stream2.m3u8)"
