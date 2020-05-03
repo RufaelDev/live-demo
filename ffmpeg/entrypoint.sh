@@ -54,7 +54,7 @@ drawtext=timecode_rate=${FRAME_RATE}: timecode='$(date -u +%H\\:%M\\:%S)\\${FRAM
 drawtext=text='%{gmtime\:%Y-%m-%d}\ ': fontsize=32: x=(w-tw)/2-tw/2: y=30: fontcolor=white[v+tc]; \
 [v+tc][1]overlay=eval=init:x=W-15-w:y=15[vid];
 [vid]split=2[vid0][vid1]" \
--map "[vid0]" -s 1280x720 -c:v libx264 -b:v 1000k -profile:v main -preset ultrafast -tune zerolatency \
+-map "[vid0]" -s 1280x720 -c:v libx264 -b:v 2000k -profile:v main -preset ultrafast -tune zerolatency \
 -g $GOP_LENGTH \
 -r $FRAME_RATE \
 -keyint_min $GOP_LENGTH \
