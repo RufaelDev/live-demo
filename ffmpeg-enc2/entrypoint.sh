@@ -31,7 +31,7 @@ PUB_POINT=${PUB_POINT_URI}
 set -x
 exec ffmpeg -re \
 -f lavfi \
--i smptehdbars=size=1280x720 \
+-i smptehdbars=size=1280x720:rate=${FRAME_RATE} \
 -i "https://raw.githubusercontent.com/unifiedstreaming/live-demo/master/ffmpeg/usp_logo_white.png" \
 -filter_complex \
 "sine=frequency=1:beep_factor=480:sample_rate=48000, \

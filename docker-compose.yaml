@@ -17,8 +17,8 @@ services:
   ffmpeg-enc1:
     build: ffmpeg-enc1
     environment:
-      - FRAME_RATE=25
-      - GOP_LENGTH=48
+      - FRAME_RATE=50
+      - GOP_LENGTH=96
       - AUDIO_FRAG_DUR_MICROS=1920000
       - PUB_POINT_URI=http://live-origin/test/test.isml
       - LOGO_OVERLAY=

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # set env vars to defaults if not already set
-export FRAME_RATE="${FRAME_RATE:-25}"
+export FRAME_RATE="${FRAME_RATE:-50}"
 export GOP_LENGTH="${GOP_LENGTH:-${FRAME_RATE}}"
 export AUDIO_FRAG_DUR_MICROS="${AUDIO_FRAG_DUR_MICROS:-1920000}"
 
@@ -31,7 +31,7 @@ PUB_POINT=${PUB_POINT_URI}
 set -x
 exec ffmpeg -re \
 -f lavfi \
--i smptehdbars=size=1280x720 \
+-i smptehdbars=size=1280x720:rate=${FRAME_RATE} \
 -i "https://raw.githubusercontent.com/unifiedstreaming/live-demo/master/ffmpeg/usp_logo_white.png" \
 -filter_complex \
 "sine=frequency=1:beep_factor=480:sample_rate=48000, \
@@ -49,7 +49,7 @@ color=size=1280x100:color=black[blackbg]; \
 [0][waves2]overlay=y=620[v]; \
 [v]drawbox=y=25: x=iw/2-iw/7: c=0x00000000@1: w=iw/3.5: h=36: t=fill, \
 drawtext=text='DASH-IF Live Media Ingest Protocol': fontsize=32: x=(w-text_w)/2: y=75: fontsize=32: fontcolor=white,\
-drawtext=text='Multi Encoder Ingest - Encoder 1 (video-720p25-1000k)': fontsize=32: x=(w-text_w)/2: y=125: fontsize=32: fontcolor=white, \
+drawtext=text='Multi Encoder Ingest - Encoder 1 (video-720p50-1000k)': fontsize=32: x=(w-text_w)/2: y=125: fontsize=32: fontcolor=white, \
 drawtext=timecode_rate=${FRAME_RATE}: timecode='$(date -u +%H\\:%M\\:%S)\\${FRAME_SEP}$(($(date +%3N)/$((1000/$FRAME_RATE))))': tc24hmax=1: fontsize=32: x=(w-tw)/2+tw/2: y=30: fontcolor=white, \
 drawtext=text='%{gmtime\:%Y-%m-%d}\ ': fontsize=32: x=(w-tw)/2-tw/2: y=30: fontcolor=white[v+tc]; \
 [v+tc][1]overlay=eval=init:x=W-15-w:y=15[vid]" \
